@@ -38,7 +38,7 @@ export const possibleSpaces = [
     'Marriage proposal',
     'Dancing',
     'Two different love interests',
-    'U patterned Christmas sweater',
+    '"U" patterned Christmas sweater',
     'Clashing people team up',
     'Falling on ice',
     'Homemade ornament',
@@ -62,6 +62,16 @@ export function generateCard() {
     listOfSpacesEl.innerHTML = '';
     let drawSpace = possibleSpaces;
     let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, 9);
-    draws.forEach(draw => listOfSpacesEl.innerHTML += '<li>' + draw + '</li>');
+    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button style="color: black;" id="draw-' + index + '">' + draw + '</button>');
+    for (let i = 0; i < 9; i++) {
+        let el = document.getElementById('draw-' + i);
+        el.addEventListener('click', (event) => {
+            if (event.target.style.color == 'green') {
+                event.target.style.color = 'black';
+            } else {
+                event.target.style.color = 'green';
+            }
+        });
+    }
 }
 

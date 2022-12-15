@@ -14,11 +14,11 @@ export const possibleSpaces = [
     'Snow globe',
     'Skating',
     'Toboganning',
-    'Protagonists sing christmas carols',
+    'Protagonists sing Christmas carols',
     'Christmas concert',
     'Sitting around fireplace',
     'Stormed in',
-    'Buy Christms tree',
+    'Buy Christmas tree',
     'Make cookies',
     'Gingerbread',
     'Interrupted travel plans',
@@ -56,7 +56,7 @@ function resetListOfPossibleSpaces() {
     const listOfPossibleSpacesEl = document.getElementById('possible-spaces');
     listOfPossibleSpacesEl.innerHTML = '';
     possibleSpaces.forEach(possibleSpace => {
-        listOfPossibleSpacesEl.innerHTML += '<li>' + possibleSpace + '</li>';
+        listOfPossibleSpacesEl.innerHTML += '<li class="m-1">' + possibleSpace + ' | </li>';
     });
 }
 
@@ -66,7 +66,7 @@ export function generateCard() {
     let drawSpace = possibleSpaces;
     let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
     draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free'
-    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="p-4 m-1 border border-slate-500" id="space-' + index + '">' + draw + '</button>');
+    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="h-32 m-1 rounded-md border" id="space-' + index + '">' + draw + '</button>');
     for (let i = 0; i < NUMBER_OF_SPACES; i++) {
         let el = document.getElementById('space-' + i);
         if (i === Math.floor(NUMBER_OF_SPACES / 2)) {
@@ -85,14 +85,16 @@ export function generateCard() {
 }
 
 function toGreen(el) {
-    el.style.color = 'rgb(22 101 52)';
-    el.style.backgroundColor = 'rgb(240 253 244)';
+    el.style.color = 'rgb(20 83 45)';
+    el.style.borderColor = 'rgb(20 83 45)';
+    el.style.backgroundColor = 'rgb(187 247 208)';
     greens.add(el.id);
 }
 
 function toBlack(el) {
-    el.style.color = 'rgb(30 41 59)'
-    el.style.backgroundColor = 'rgb(248 250 252)';
+    el.style.color = 'rgb(153 27 27)';
+    el.style.borderColor = 'rgb(153 27 27)';
+    el.style.backgroundColor = 'rgb(254 242 242)';
     greens.delete(el.id);
 }
 

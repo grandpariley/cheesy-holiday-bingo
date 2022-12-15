@@ -86,7 +86,8 @@ function generateCard(draws) {
             toRed(el);
         }
         el.addEventListener('click', (event) => {
-            toggle(event.target, new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))))
+            toggle(event.target, new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))));
+            checkWinCondition();
         });
     }
 }
@@ -106,7 +107,6 @@ function toGreen(el) {
     let greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
     greens.add(el.id);
     localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
-    checkWinCondition();
 }
 
 function toRed(el) {
@@ -121,8 +121,24 @@ function toRed(el) {
 function checkWinCondition() {
     const greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
     if (true) {
-        for (let i = 0; i < NUMBER_OF_SPACES; i++) {
-            console.log("blah", $('#draw-' + i))
-        }
+        document.getElementById('confetti-container').innerHTML = `
+        <div class="confetti">
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+        </div>`;
+        setTimeout(() => {
+            document.getElementById('confetti-container').innerHTML = '';
+        }, 5000)
     }
 }

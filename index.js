@@ -45,11 +45,21 @@ export const possibleSpaces = [
 ]
 
 const NUMBER_OF_SPACES = 25;
-var greens = new Set();
+const LS_GREENS_KEY = "greens";
+const LS_SPACES_KEY = "spaces";
 
 window.onload = function () {
+    if (localStorage.getItem(LS_GREENS_KEY) && localStorage.getItem(LS_SPACES_KEY)) {
+        generateCard(JSON.parse(localStorage.getItem(LS_SPACES_KEY)), new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))));
+        return;
+    }
     resetListOfPossibleSpaces();
-    generateCard();
+    let drawSpace = possibleSpaces;
+    let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
+    draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free';
+    localStorage.setItem(LS_GREENS_KEY, JSON.stringify([]));
+    localStorage.setItem(LS_SPACES_KEY, JSON.stringify(draws));
+    generateCard(draws, new Set());
 }
 
 function resetListOfPossibleSpaces() {
@@ -60,12 +70,9 @@ function resetListOfPossibleSpaces() {
     });
 }
 
-export function generateCard() {
+export function generateCard(draws) {
     const listOfSpacesEl = document.getElementById('spaces');
     listOfSpacesEl.innerHTML = '';
-    let drawSpace = possibleSpaces;
-    let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
-    draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free'
     draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="h-32 m-1 rounded-md border" id="space-' + index + '">' + draw + '</button>');
     for (let i = 0; i < NUMBER_OF_SPACES; i++) {
         let el = document.getElementById('space-' + i);
@@ -73,14 +80,22 @@ export function generateCard() {
             toGreen(el);
             continue;
         }
-        toBlack(el);
+        if (new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))).has(el.id)) {
+            toGreen(el);
+        } else {
+            toRed(el);
+        }
         el.addEventListener('click', (event) => {
-            if (greens.has(event.target.id)) {
-                toBlack(event.target);
-            } else {
-                toGreen(event.target);
-            }
+            toggle(event.target, new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))))
         });
+    }
+}
+
+function toggle(el, greens) {
+    if (greens.has(el.id)) {
+        toRed(el);
+    } else {
+        toGreen(el);
     }
 }
 
@@ -88,13 +103,17 @@ function toGreen(el) {
     el.style.color = 'rgb(20 83 45)';
     el.style.borderColor = 'rgb(20 83 45)';
     el.style.backgroundColor = 'rgb(187 247 208)';
+    let greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
     greens.add(el.id);
+    localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
 }
 
-function toBlack(el) {
+function toRed(el) {
     el.style.color = 'rgb(153 27 27)';
     el.style.borderColor = 'rgb(153 27 27)';
     el.style.backgroundColor = 'rgb(254 242 242)';
+    let greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
     greens.delete(el.id);
+    localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
 }
 

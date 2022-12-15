@@ -1,4 +1,4 @@
-export const possibleSpaces = [
+const possibleSpaces = [
     'Tree lighting',
     'Old flame',
     'Small town',
@@ -49,11 +49,11 @@ const LS_GREENS_KEY = "greens";
 const LS_SPACES_KEY = "spaces";
 
 window.onload = function () {
+    resetListOfPossibleSpaces();
     if (localStorage.getItem(LS_GREENS_KEY) && localStorage.getItem(LS_SPACES_KEY)) {
         generateCard(JSON.parse(localStorage.getItem(LS_SPACES_KEY)), new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))));
         return;
     }
-    resetListOfPossibleSpaces();
     let drawSpace = possibleSpaces;
     let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
     draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free';
@@ -66,11 +66,11 @@ function resetListOfPossibleSpaces() {
     const listOfPossibleSpacesEl = document.getElementById('possible-spaces');
     listOfPossibleSpacesEl.innerHTML = '';
     possibleSpaces.forEach(possibleSpace => {
-        listOfPossibleSpacesEl.innerHTML += '<li class="m-1">' + possibleSpace + ' | </li>';
+        listOfPossibleSpacesEl.innerHTML += '<li class="m-1 text-slate-200">' + possibleSpace + ' | </li>';
     });
 }
 
-export function generateCard(draws) {
+function generateCard(draws) {
     const listOfSpacesEl = document.getElementById('spaces');
     listOfSpacesEl.innerHTML = '';
     draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="h-32 m-1 rounded-md border" id="space-' + index + '">' + draw + '</button>');
@@ -106,6 +106,7 @@ function toGreen(el) {
     let greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
     greens.add(el.id);
     localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
+    checkWinCondition();
 }
 
 function toRed(el) {
@@ -117,3 +118,11 @@ function toRed(el) {
     localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
 }
 
+function checkWinCondition() {
+    const greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
+    if (true) {
+        for (let i = 0; i < NUMBER_OF_SPACES; i++) {
+            console.log("blah", $('#draw-' + i))
+        }
+    }
+}

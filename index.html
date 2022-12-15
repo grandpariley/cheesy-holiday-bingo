@@ -4,14 +4,17 @@
 <head>
     <meta lang="en" />
     <script src="index.js" type="module"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <h1>Cheesy Holiday Bingo</h1>
-    <main>
+    <header class="m-6">
+        <h1 class="text-3xl font-semibold">Cheesy Holiday Bingo</h1>
+    </header>
+    <main class="ml-6 mr-6">
         <div id="card">
-            <h3>Card</h3>
-            <p id="spaces"></p>
+            <h3 class="mb-3 text-xl font-semibold">Card</h3>
+            <div class="grid grid-cols-5" id="spaces"></div>
         </div>
         <div>
             <h3>Possible spaces</h3>

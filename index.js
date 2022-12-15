@@ -44,6 +44,9 @@ export const possibleSpaces = [
     'Homemade ornament',
 ]
 
+const NUMBER_OF_SPACES = 25;
+var greens = new Set();
+
 window.onload = function () {
     resetListOfPossibleSpaces();
     generateCard();
@@ -61,17 +64,35 @@ export function generateCard() {
     const listOfSpacesEl = document.getElementById('spaces');
     listOfSpacesEl.innerHTML = '';
     let drawSpace = possibleSpaces;
-    let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, 9);
-    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button style="color: black;" id="draw-' + index + '">' + draw + '</button>');
-    for (let i = 0; i < 9; i++) {
-        let el = document.getElementById('draw-' + i);
+    let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
+    draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free'
+    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="p-4 m-1 border border-slate-500" id="space-' + index + '">' + draw + '</button>');
+    for (let i = 0; i < NUMBER_OF_SPACES; i++) {
+        let el = document.getElementById('space-' + i);
+        if (i === Math.floor(NUMBER_OF_SPACES / 2)) {
+            toGreen(el);
+            continue;
+        }
+        toBlack(el);
         el.addEventListener('click', (event) => {
-            if (event.target.style.color == 'green') {
-                event.target.style.color = 'black';
+            if (greens.has(event.target.id)) {
+                toBlack(event.target);
             } else {
-                event.target.style.color = 'green';
+                toGreen(event.target);
             }
         });
     }
+}
+
+function toGreen(el) {
+    el.style.color = 'rgb(22 101 52)';
+    el.style.backgroundColor = 'rgb(240 253 244)';
+    greens.add(el.id);
+}
+
+function toBlack(el) {
+    el.style.color = 'rgb(30 41 59)'
+    el.style.backgroundColor = 'rgb(248 250 252)';
+    greens.delete(el.id);
 }
 

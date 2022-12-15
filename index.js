@@ -22,7 +22,7 @@ export const possibleSpaces = [
     'Make cookies',
     'Gingerbread',
     'Interrupted travel plans',
-    'Prent interfering with love life',
+    'Parent interfering with love life',
     'Annual holiday party',
     'Single parent',
     'Child hungry',

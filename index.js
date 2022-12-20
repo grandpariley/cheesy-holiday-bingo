@@ -49,11 +49,16 @@ const LS_GREENS_KEY = "greens";
 const LS_SPACES_KEY = "spaces";
 
 window.onload = function () {
+    document.getElementById('reset-btn').addEventListener('click', reset);
     resetListOfPossibleSpaces();
     if (localStorage.getItem(LS_GREENS_KEY) && localStorage.getItem(LS_SPACES_KEY)) {
         generateCard(JSON.parse(localStorage.getItem(LS_SPACES_KEY)), new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))));
         return;
     }
+    reset();
+}
+
+function reset() {
     let drawSpace = possibleSpaces;
     let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
     draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free';
@@ -119,8 +124,8 @@ function toRed(el) {
 }
 
 function checkWinCondition() {
-    const greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
-    if (true) {
+    const greens = JSON.parse(localStorage.getItem(LS_GREENS_KEY));
+    if (greensInLine(greens)) {
         document.getElementById('confetti-container').innerHTML = `
         <div class="confetti">
             <div class="confetti-piece"></div>
@@ -139,6 +144,100 @@ function checkWinCondition() {
         </div>`;
         setTimeout(() => {
             document.getElementById('confetti-container').innerHTML = '';
-        }, 5000)
+            reset();
+        }, 5000);
     }
+}
+
+function greensInLine(greens) {
+    const indicies = greens.map(g => parseInt(g.slice('space-'.length)));
+    return horizontalLine(indicies) ||
+        verticalLine(indicies) ||
+        diagonalLine(indicies);
+}
+
+// god will frown upon what he hath sought henceforth
+
+function horizontalLine(indicies) {
+    return (
+        indicies.includes(0) &&
+        indicies.includes(1) &&
+        indicies.includes(2) &&
+        indicies.includes(3) &&
+        indicies.includes(4)
+    ) || (
+            indicies.includes(5) &&
+            indicies.includes(6) &&
+            indicies.includes(7) &&
+            indicies.includes(8) &&
+            indicies.includes(9)
+        ) || (
+            indicies.includes(10) &&
+            indicies.includes(11) &&
+            indicies.includes(12) &&
+            indicies.includes(13) &&
+            indicies.includes(14)
+        ) || (
+            indicies.includes(15) &&
+            indicies.includes(16) &&
+            indicies.includes(17) &&
+            indicies.includes(18) &&
+            indicies.includes(19)
+        ) || (
+            indicies.includes(20) &&
+            indicies.includes(21) &&
+            indicies.includes(22) &&
+            indicies.includes(23) &&
+            indicies.includes(24)
+        );
+}
+
+function verticalLine(indicies) {
+    return (
+        indicies.includes(0) &&
+        indicies.includes(5) &&
+        indicies.includes(10) &&
+        indicies.includes(15) &&
+        indicies.includes(20)
+    ) || (
+            indicies.includes(1) &&
+            indicies.includes(6) &&
+            indicies.includes(11) &&
+            indicies.includes(16) &&
+            indicies.includes(21)
+        ) || (
+            indicies.includes(2) &&
+            indicies.includes(7) &&
+            indicies.includes(12) &&
+            indicies.includes(17) &&
+            indicies.includes(22)
+        ) || (
+            indicies.includes(3) &&
+            indicies.includes(8) &&
+            indicies.includes(13) &&
+            indicies.includes(18) &&
+            indicies.includes(23)
+        ) || (
+            indicies.includes(4) &&
+            indicies.includes(9) &&
+            indicies.includes(14) &&
+            indicies.includes(19) &&
+            indicies.includes(24)
+        );
+}
+
+function diagonalLine(indicies) {
+    return (
+        indicies.includes(0) &&
+        indicies.includes(6) &&
+        indicies.includes(12) &&
+        indicies.includes(18) &&
+        indicies.includes(24)
+    ) || (
+            indicies.includes(4) &&
+            indicies.includes(8) &&
+            indicies.includes(12) &&
+            indicies.includes(18) &&
+            indicies.includes(24)
+        );
 }

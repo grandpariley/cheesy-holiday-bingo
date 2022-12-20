@@ -47,9 +47,17 @@ const possibleSpaces = [
 const NUMBER_OF_SPACES = 25;
 const LS_GREENS_KEY = "greens";
 const LS_SPACES_KEY = "spaces";
+const LS_SCORE_KEY = "score";
 
 window.onload = function () {
-    document.getElementById('reset-btn').addEventListener('click', reset);
+    if (!localStorage.getItem(LS_SCORE_KEY)) {
+        localStorage.setItem(LS_SCORE_KEY, 0);
+    }
+    document.getElementById('score').innerHTML = localStorage.getItem(LS_SCORE_KEY);
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        localStorage.setItem(LS_SCORE_KEY, 0);
+        reset();
+    });
     resetListOfPossibleSpaces();
     if (localStorage.getItem(LS_GREENS_KEY) && localStorage.getItem(LS_SPACES_KEY)) {
         generateCard(JSON.parse(localStorage.getItem(LS_SPACES_KEY)), new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))));
@@ -142,6 +150,8 @@ function checkWinCondition() {
             <div class="confetti-piece"></div>
             <div class="confetti-piece"></div>
         </div>`;
+        localStorage.setItem(LS_SCORE_KEY, parseInt(localStorage.getItem(LS_SCORE_KEY)) + 1);
+        document.getElementById('score').innerHTML = localStorage.getItem(LS_SCORE_KEY);
         setTimeout(() => {
             document.getElementById('confetti-container').innerHTML = '';
             reset();

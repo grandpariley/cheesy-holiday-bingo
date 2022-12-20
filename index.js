@@ -87,7 +87,7 @@ function resetListOfPossibleSpaces() {
 function generateCard(draws) {
     const listOfSpacesEl = document.getElementById('spaces');
     listOfSpacesEl.innerHTML = '';
-    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="lg:h-32 h-48 m-1 p-1 lg:text-lg text-4xl lg:rounded rounded-lg border" id="space-' + index + '">' + draw + '</button>');
+    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="lg:h-32 h-48 m-1 p-1 lg:text-lg text-3xl lg:rounded rounded-lg border" id="space-' + index + '">' + draw + '</button>');
     for (let i = 0; i < NUMBER_OF_SPACES; i++) {
         let el = document.getElementById('space-' + i);
         if (i === Math.floor(NUMBER_OF_SPACES / 2)) {

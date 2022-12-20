@@ -17,6 +17,6 @@
       background-position: 0 0;
     }
     100% {
-      background-position: 0px 300px;
+      background-position: 100%;
     }
   }

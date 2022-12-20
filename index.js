@@ -79,14 +79,14 @@ function resetListOfPossibleSpaces() {
     const listOfPossibleSpacesEl = document.getElementById('possible-spaces');
     listOfPossibleSpacesEl.innerHTML = '';
     possibleSpaces.forEach(possibleSpace => {
-        listOfPossibleSpacesEl.innerHTML += '<li class="m-1 text-slate-200">' + possibleSpace + ' | </li>';
+        listOfPossibleSpacesEl.innerHTML += '<li class="m-1 lg:text-md text-xl text-slate-200">' + possibleSpace + ' | </li>';
     });
 }
 
 function generateCard(draws) {
     const listOfSpacesEl = document.getElementById('spaces');
     listOfSpacesEl.innerHTML = '';
-    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="h-32 m-1 rounded-md border" id="space-' + index + '">' + draw + '</button>');
+    draws.forEach((draw, index) => listOfSpacesEl.innerHTML += '<button class="lg:h-32 h-48 m-1 p-1 lg:text-md text-2xl lg:rounded rounded-lg border" id="space-' + index + '">' + draw + '</button>');
     for (let i = 0; i < NUMBER_OF_SPACES; i++) {
         let el = document.getElementById('space-' + i);
         if (i === Math.floor(NUMBER_OF_SPACES / 2)) {
@@ -247,7 +247,7 @@ function diagonalLine(indicies) {
             indicies.includes(4) &&
             indicies.includes(8) &&
             indicies.includes(12) &&
-            indicies.includes(18) &&
-            indicies.includes(24)
+            indicies.includes(16) &&
+            indicies.includes(20)
         );
 }

@@ -56,6 +56,7 @@ window.onload = function () {
     document.getElementById('score').innerHTML = localStorage.getItem(LS_SCORE_KEY);
     document.getElementById('reset-btn').addEventListener('click', () => {
         localStorage.setItem(LS_SCORE_KEY, 0);
+        document.getElementById('score').innerHTML = localStorage.getItem(LS_SCORE_KEY);
         reset();
     });
     resetListOfPossibleSpaces();

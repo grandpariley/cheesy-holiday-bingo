@@ -9,7 +9,7 @@ const possibleSpaces = [
     'Oversize ornaments',
     'Kissing under mistletoe',
     'A change of heart',
-    'Job offer in another town',
+    'Job offer',
     'Magically starts snowing',
     'Snow globe',
     'Skating',
@@ -42,6 +42,10 @@ const possibleSpaces = [
     'Clashing people team up',
     'Falling on ice',
     'Homemade ornament',
+    'Talking to animals',
+    'Grand gesture',
+    'Apologize for a kiss',
+    'Couple runs into each other',
 ]
 
 const NUMBER_OF_SPACES = 25;

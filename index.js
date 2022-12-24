@@ -46,6 +46,7 @@ const possibleSpaces = [
     'Grand gesture',
     'Apologize for a kiss',
     'Couple runs into each other',
+    'White toque',
 ]
 
 const NUMBER_OF_SPACES = 25;

@@ -66,19 +66,30 @@ window.onload = function () {
     });
     resetListOfPossibleSpaces();
     if (localStorage.getItem(LS_GREENS_KEY) && localStorage.getItem(LS_SPACES_KEY)) {
-        generateCard(JSON.parse(localStorage.getItem(LS_SPACES_KEY)), new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))));
+        generateCard(JSON.parse(localStorage.getItem(LS_SPACES_KEY)));
         return;
     }
     reset();
 }
 
-function reset() {
+function reset(resetCard = true) {
     let drawSpace = possibleSpaces;
     let draws = drawSpace.sort(() => Math.random() - 0.5).slice(0, NUMBER_OF_SPACES);
     draws[Math.floor(NUMBER_OF_SPACES / 2)] = 'Free';
-    localStorage.setItem(LS_GREENS_KEY, JSON.stringify([]));
+    if (resetCard) {
+        localStorage.setItem(LS_GREENS_KEY, JSON.stringify([]));
+    } else {
+        const greens = JSON.parse(localStorage.getItem(LS_GREENS_KEY));
+        for (let i = 0; i < NUMBER_OF_SPACES; i++) {
+            let el = document.getElementById('space-'.concat(i));
+            if (greens.includes(el.innerHTML)) {
+                toGreen(el);
+            }
+        }
+    }
     localStorage.setItem(LS_SPACES_KEY, JSON.stringify(draws));
-    generateCard(draws, new Set());
+    generateCard(draws);
+    checkWinCondition();
 }
 
 function resetListOfPossibleSpaces() {
@@ -99,7 +110,7 @@ function generateCard(draws) {
             toGreen(el);
             continue;
         }
-        if (new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))).has(el.id)) {
+        if (new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY))).has(el.innerHTML)) {
             toGreen(el);
         } else {
             toRed(el);
@@ -112,7 +123,7 @@ function generateCard(draws) {
 }
 
 function toggle(el, greens) {
-    if (greens.has(el.id)) {
+    if (greens.has(el.innerHTML)) {
         toRed(el);
     } else {
         toGreen(el);
@@ -124,7 +135,7 @@ function toGreen(el) {
     el.style.borderColor = 'rgb(20 83 45)';
     el.style.backgroundColor = 'rgb(187 247 208)';
     let greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
-    greens.add(el.id);
+    greens.add(el.innerHTML);
     localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
 }
 
@@ -133,7 +144,7 @@ function toRed(el) {
     el.style.borderColor = 'rgb(153 27 27)';
     el.style.backgroundColor = 'rgb(254 242 242)';
     let greens = new Set(JSON.parse(localStorage.getItem(LS_GREENS_KEY)));
-    greens.delete(el.id);
+    greens.delete(el.innerHTML);
     localStorage.setItem(LS_GREENS_KEY, JSON.stringify(Array.from(greens)));
 }
 
@@ -160,13 +171,13 @@ function checkWinCondition() {
         document.getElementById('score').innerHTML = localStorage.getItem(LS_SCORE_KEY);
         setTimeout(() => {
             document.getElementById('confetti-container').innerHTML = '';
-            reset();
+            reset(false);
         }, 5000);
     }
 }
 
 function greensInLine(greens) {
-    const indicies = greens.map(g => parseInt(g.slice('space-'.length)));
+    const indicies = greens.map(g => JSON.parse(localStorage.getItem(LS_SPACES_KEY)).findIndex(space => space === g));
     return horizontalLine(indicies) ||
         verticalLine(indicies) ||
         diagonalLine(indicies);
